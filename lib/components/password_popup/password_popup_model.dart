@@ -1,8 +1,8 @@
 import '/flutter_flow/flutter_flow_util.dart';
-import 'dashboard_widget.dart' show DashboardWidget;
+import 'password_popup_widget.dart' show PasswordPopupWidget;
 import 'package:flutter/material.dart';
 
-class DashboardModel extends FlutterFlowModel<DashboardWidget> {
+class PasswordPopupModel extends FlutterFlowModel<PasswordPopupWidget> {
   @override
   void initState(BuildContext context) {}
 

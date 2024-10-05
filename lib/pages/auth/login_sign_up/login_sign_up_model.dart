@@ -42,6 +42,8 @@ class LoginSignUpModel extends FlutterFlowModel<LoginSignUpWidget> {
     return null;
   }
 
+  // Stores action output result for [Custom Action - customAuth] action in Button widget.
+  List<dynamic>? authResult;
   // State field(s) for emailAddress_Create widget.
   FocusNode? emailAddressCreateFocusNode;
   TextEditingController? emailAddressCreateTextController;

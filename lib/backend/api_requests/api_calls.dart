@@ -1,6 +1,8 @@
 import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 
+import '/flutter_flow/flutter_flow_util.dart';
 import 'api_manager.dart';
 
 export 'api_manager.dart' show ApiCallResponse;
@@ -14,7 +16,8 @@ class EmailVerificationCall {
   }) async {
     return ApiManager.instance.makeApiCall(
       callName: 'emailVerification',
-      apiUrl: 'https://www.ipqualityscore.com/api/json/email/$email',
+      apiUrl:
+          'https://www.ipqualityscore.com/api/json/email/$apiKey/$email',
       callType: ApiCallType.GET,
       headers: {},
       params: {
@@ -173,6 +176,9 @@ class ApiPagingParams {
 }
 
 String _toEncodable(dynamic item) {
+  if (item is DocumentReference) {
+    return item.path;
+  }
   return item;
 }
 

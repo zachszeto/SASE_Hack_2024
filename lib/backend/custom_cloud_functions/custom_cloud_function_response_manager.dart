@@ -1,3 +1,4 @@
+
 class GmailFetchCloudFunctionCallResponse {
   GmailFetchCloudFunctionCallResponse({
     this.errorCode,

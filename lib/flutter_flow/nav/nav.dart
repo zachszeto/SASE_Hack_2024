@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '/backend/backend.dart';
+import '/backend/schema/structs/index.dart';
 
 import '/auth/base_auth_user_provider.dart';
 
@@ -72,14 +74,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? const MailPageWidget() : const LoginSignUpWidget(),
+          appStateNotifier.loggedIn ? const DashboardWidget() : const WelcomeWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
-          builder: (context, _) => appStateNotifier.loggedIn
-              ? const MailPageWidget()
-              : const LoginSignUpWidget(),
+          builder: (context, _) =>
+              appStateNotifier.loggedIn ? const DashboardWidget() : const WelcomeWidget(),
         ),
         FFRoute(
           name: 'LoginSignUp',
@@ -95,6 +96,26 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'Dashboard',
           path: '/dashboard',
           builder: (context, params) => const DashboardWidget(),
+        ),
+        FFRoute(
+          name: 'Welcome',
+          path: '/welcome',
+          builder: (context, params) => const WelcomeWidget(),
+        ),
+        FFRoute(
+          name: 'Passwords',
+          path: '/passwords',
+          builder: (context, params) => const PasswordsWidget(),
+        ),
+        FFRoute(
+          name: 'emailFullInfo',
+          path: '/emailFullInfo',
+          builder: (context, params) => const EmailFullInfoWidget(),
+        ),
+        FFRoute(
+          name: 'sendEmail',
+          path: '/sendEmail',
+          builder: (context, params) => const SendEmailWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -213,6 +234,8 @@ class FFParameters {
     String paramName,
     ParamType type, {
     bool isList = false,
+    List<String>? collectionNamePath,
+    StructBuilder<T>? structBuilder,
   }) {
     if (futureParamValues.containsKey(paramName)) {
       return futureParamValues[paramName];
@@ -230,6 +253,8 @@ class FFParameters {
       param,
       type,
       isList,
+      collectionNamePath: collectionNamePath,
+      structBuilder: structBuilder,
     );
   }
 }
@@ -263,7 +288,7 @@ class FFRoute {
 
           if (requireAuth && !appStateNotifier.loggedIn) {
             appStateNotifier.setRedirectLocationIfUnset(state.uri.toString());
-            return '/loginSignUp';
+            return '/welcome';
           }
           return null;
         },
